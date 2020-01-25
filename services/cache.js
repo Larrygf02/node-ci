@@ -27,7 +27,7 @@ mongoose.Query.prototype.exec = async function () {
     }))
 
     // Mirar si el key se encuentra en redis
-    const cacheValue = await client.get(key)
+    const cacheValue = await client.hget(this.hashKey, key)
     if (cacheValue) {
         console.log('Cache value');
         const doc = JSON.parse(cacheValue)
@@ -37,7 +37,7 @@ mongoose.Query.prototype.exec = async function () {
     }
 
     const result = await exec.apply(this, arguments);
-    client.hset(this.hashKey ,key, JSON.stringify(result), 'EX', 10)
+    client.hset(this.hashKey ,key, JSON.stringify(result))
     return result;
 }
 
