@@ -13,7 +13,7 @@ beforeEach( async () => {
 
 // despues de cada prueba
 afterEach(async () => {
-    await browser.close()
+    // await browser.close()
 })
 
 test('We can launch a browser', async () => {
@@ -22,8 +22,29 @@ test('We can launch a browser', async () => {
     expect(text).toEqual('Blogster');
 });
 
-test('clicking login', async () => {
+/* test('clicking login', async () => {
     await page.click('.right a');
     const url = await page.url()
-    console.log(url);
+    expect(url).toMatch(/accounts\.google\.com/);
+}) */
+
+test.only('when signed in, shows logout button', async () => {
+    const id = '5dbc53fd9aa9504d9caec4b4';
+    const Buffer = require('safe-buffer').Buffer;
+    const sessionObject = {
+        passport: {
+            user: id
+        }
+    }
+
+    const sessionString = Buffer.from(JSON.stringify(sessionObject)).toString('base64');
+    const Keygrip = require('keygrip')
+    const keys = require('../config/keys')
+    const keygrip = new Keygrip([keys.cookieKey])
+    const sig = keygrip.sign('session=' + sessionString);
+    console.log(sessionString, sig);
+
+    await page.setCookie({ name: 'session', value: sessionString})
+    await page.setCookie({ name: 'session.sig', value: sig})
+    await page.goto('localhost:3000')
 })
