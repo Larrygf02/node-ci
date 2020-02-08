@@ -1,22 +1,17 @@
-const puppeteer = require('puppeteer');
-const sessionFactory = require('./factories/sessionFactory')
-const userFactory = require('./factories/userFactory')
+const Page = require('./helpers/page')
 
-let browser, page;
+let page;
 
 // antes de cada prueba
 beforeEach( async () => {
-    browser = await puppeteer.launch({
-        headless: false
-    });
-    page = await browser.newPage();
+    page = await Page.build()
     await page.goto('localhost:3000')
 })
 
 // despues de cada prueba
-afterEach(async () => {
-    // await browser.close()
-})
+/* afterEach(async () => {
+    await page.close();
+}) */
 
 test('We can launch a browser', async () => {
     // Logo de la pagina 
@@ -30,15 +25,13 @@ test('clicking login', async () => {
     expect(url).toMatch(/accounts\.google\.com/);
 })
 
-test.only('when signed in, shows logout button', async () => {
-    const user = await userFactory()
-    const { session, sig } = sessionFactory(user)
-
-    await page.setCookie({ name: 'session', value: session})
-    await page.setCookie({ name: 'session.sig', value: sig})
-    await page.goto('localhost:3000')
-    await page.waitFor('a[href="/auth/logout"]');
-
-    const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
-    expect(text).toEqual('Logout');
+test('when signed in, shows logout button', async () => {
+    try {
+        await page.login();
+        const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+        expect(text).toEqual('Logout');
+    }catch (e) {
+        console.log(e)
+    }
 })
+
