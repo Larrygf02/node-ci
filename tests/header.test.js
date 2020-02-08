@@ -15,7 +15,8 @@ beforeEach( async () => {
 
 test('We can launch a browser', async () => {
     // Logo de la pagina 
-    const text = await page.$eval('a.brand-logo', el => el.innerHTML)
+    const text = await page.getContentsOf('a.brand-logo')
+    // const text = await page.$eval('a.brand-logo', el => el.innerHTML)
     expect(text).toEqual('Blogster');
 });
 
@@ -28,7 +29,7 @@ test('clicking login', async () => {
 test('when signed in, shows logout button', async () => {
     try {
         await page.login();
-        const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+        const text = await page.getContentsOf('a[href="/auth/logout"]');
         expect(text).toEqual('Logout');
     }catch (e) {
         console.log(e)
