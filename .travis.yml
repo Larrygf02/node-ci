@@ -5,7 +5,6 @@ dist: trusty
 services:
   - mongodb
   - redis-server
-sudo: required
 addons:
   chrome: stable
 before_install:
