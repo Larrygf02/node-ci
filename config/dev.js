@@ -6,5 +6,7 @@ module.exports = {
   // mongoURI: 'mongodb://raulgf:blWzBslJNzI7BVa9@cluster0-shard-00-00-caana.mongodb.net:27017,cluster0-shard-00-01-caana.mongodb.net:27017,cluster0-shard-00-02-caana.mongodb.net:27017/blog_dev?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority',
   mongoURI: 'mongodb://127.0.0.1:27017/blog_ci',
   cookieKey: '123123123',
-  redisUrl: 'redis://127.0.0.1:6379'
+  redisUrl: 'redis://127.0.0.1:6379',
+  accessKey: 'AKIAIDAC3SQ4FF7TOHPQ',
+  secretAccessKey: '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'
 };
