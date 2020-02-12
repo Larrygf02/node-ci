@@ -14,7 +14,7 @@ module.exports = app => {
         const key = `${req.user.id}/${uuid()}.jpeg`
         s3.getSignedUrl('putObject', {
             Bucket: 'my-blog-bucket-aws',
-            ContentType: 'jpeg',
+            ContentType: 'image/peg',
             Key: key
         }, (err, url) => res.send({ key, url }))
     })
